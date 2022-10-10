@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .outer {
+        width: 500px;
+        height: 500px;
+        background-color: yellow;
+      }
+
+      .middle {
+        width: 50%;
+        height: 50%;
+        margin: auto;
+        background-color: thistle;
+        transform: translateY(50%);
+      }
+
+      button {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="outer">
+      <div class="middle">
+        <button>Click Me</button>
+      </div>
+    </div>
+    <script>
+      const outer = document.querySelector('.outer');
+      const middle = document.querySelector('.middle');
+      const button = document.querySelector('button');
+
+      outer.addEventListener('click', event => {
+        if (event.target !== event.currentTarget) {
+          return;
+        }
+        console.log(`outer: ${event.currentTarget}, ${event.target}`);
+      });
+      middle.addEventListener('click', event => {
+        if (event.target !== event.currentTarget) {
+          return;
+        }
+        console.log(`middle ${event.currentTarget}, ${event.target}`);
+      });
+      button.addEventListener('click', event => {
+        console.log(`button1 ${event.currentTarget}, ${event.target}`);
+        // 📍 stopEvent~ 사용은 정말 안좋은 방법. 다른 사람 코드를 무시하고 내 것만 처리하겠다는 말.
+        // event.stopPropagation(); // 버블링을 스탑시키는 method 
+        // event.stopImmediatePropagation(); // 무조건 나만 실행시킬거야 (버튼2 X)
+      });
+      button.addEventListener('click', event => {
+        console.log(`button2 ${event.currentTarget}, ${event.target}`);
+        // event.stopImmediatePropagation(); // 이걸 실행해도 버튼1과 버튼2과 같이 나옴: 왜냐면 버튼1 event 가 순서상 먼저 등록되었기 때문 
+        
+      });
+    </script>
+  </body>
+</html>
